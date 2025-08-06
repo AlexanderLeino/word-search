@@ -8,7 +8,7 @@ import './App.css'
 
 function App() {
   const [response, setResponse] = useState("")
-  const [word, setWord] = useState("")
+  const [word, setWord] = useState("Volume")
 
 
   const handleChange = async (e) => {
@@ -21,12 +21,13 @@ function App() {
   const fetchResponse = async (e) => {
     try {
       e.preventDefault()
-      console.log(word)
-      console.log("FETCHING RESPONSE")
-      let response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+      console.log("WORD", word)
+      let response = await fetch(`http://localhost:3000/${word}`)
+        
+
       const [string] = await response.json()
-      console.log("RESPONSE", string)
-      setResponse(string.body)
+
+      setResponse(string)
     } catch (e) {
       console.log(e)
     }
