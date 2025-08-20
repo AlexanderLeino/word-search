@@ -8,7 +8,7 @@ import './App.css'
 
 function App() {
   const [response, setResponse] = useState("")
-  const [word, setWord] = useState("Volume")
+  const [word, setWord] = useState("")
 
 
   const handleChange = async (e) => {
@@ -21,19 +21,19 @@ function App() {
   const fetchResponse = async (e) => {
     try {
       e.preventDefault()
-      console.log("WORD", word)
       let response = await fetch(`http://localhost:3000/${word}`)
         
-
-      const [string] = await response.json()
-
-      setResponse(string)
+      const data = await response.json()
+      console.log(data)
+      setResponse(data)
     } catch (e) {
       console.log(e)
     }
     
     
   }
+
+  
 
   return (
     <>
@@ -60,7 +60,6 @@ function App() {
       <button className='rounded-tr-br outline-0 h-10 bg-zinc-700 text-xl border-l-4 border-amber-100 flex items-center justify-center'><span ><GiMagnifyingGlass />
         </span></button>      
     </form>
-    {response}
     </>
   )
 }
