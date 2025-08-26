@@ -60,6 +60,35 @@ function App() {
       <button className='rounded-tr-br outline-0 h-10 bg-zinc-700 text-xl border-l-4 border-amber-100 flex items-center justify-center'><span ><GiMagnifyingGlass />
         </span></button>      
     </form>
+    <div className='flex-col'>
+
+        { response.map((wordWithDefinitions) => {
+          return (
+            <> 
+              <div>{wordWithDefinitions.date}</div>
+              <div>{wordWithDefinitions.f1}</div>
+              {
+                wordWithDefinitions.shortDef.map((def) =>
+                {
+                  return (
+                    <div>{def}</div>
+                  )
+                })
+              }
+              <div>{wordWithDefinitions.date}</div>
+              <div>{wordWithDefinitions.date}</div>
+              <div>{wordWithDefinitions.date}</div>
+              <div>{wordWithDefinitions.date}</div>
+            </>
+           
+
+            
+          )
+        })
+
+        }
+
+    </div>
     </>
   )
 }
