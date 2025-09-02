@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { MdKeyboardArrowUp} from "react-icons/md";
-const DictionaryCard = ({ date, shortdefs, functionalLabel, meta,  }) => {
+const DictionaryCard = ({ date, shortdefs, functionalLabel, word,  }) => {
 
     const [ isExpanded, setIsExpanded ] = useState(false);
-
+    
+    const cleanWord = (word) => {
+        return word.replace(/:.*$/, "");
+        }
 
     return (
         <div className=" flex-col bg-zinc-500 p-1 rounded-md shadow-md mt-3" onClick={() => setIsExpanded(!isExpanded)} >
             <div className='flex justify-between mx-2'>
-            <div className='text-2xl font-bold text-left capitalize'>{meta.stems[0]}</div>
+            <div className='text-2xl font-bold text-left capitalize'>{cleanWord(word)}</div>
             <div className='font-bold italic'>{functionalLabel}</div>
             </div>
             
