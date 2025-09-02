@@ -14,7 +14,6 @@ function App() {
   const handleChange = async (e) => {
     e.preventDefault();
     let value = e.target.value;
-    console.log(e.target.value)
     setWord(value)
   }
 
