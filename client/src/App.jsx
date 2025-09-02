@@ -66,7 +66,7 @@ function App() {
         return (
           <DictionaryCard 
             key={index} 
-            word={wordData.hwi.hw} 
+            meta={wordData.meta} 
             functionalLabel={wordData.fl} 
             shortdefs={wordData.shortdef} 
             date={wordData.date}

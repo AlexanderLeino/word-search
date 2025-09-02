@@ -132,8 +132,8 @@ app.get('/:word', async (req, res) => {
 
   let data = await response.json()
   console.log("DATA", data)
+  // data = getTopThreeDefinitionsAllEntries(data)
   res.send(data)
-  getTopThreeDefinitionsAllEntries(data)
   } catch (e) {
     console.log(e)
     res.send(e)
