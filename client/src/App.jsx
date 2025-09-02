@@ -7,7 +7,7 @@ import { GiMagnifyingGlass } from "react-icons/gi";
 import './App.css'
 
 function App() {
-  const [response, setResponse] = useState("")
+  const [response, setResponse] = useState([])
   const [word, setWord] = useState("")
 
 
