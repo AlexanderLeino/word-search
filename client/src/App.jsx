@@ -3,11 +3,12 @@ import { TbSquareLetterWFilled } from "react-icons/tb";
 import { TbSquareLetterW, TbSquareLetterO, TbSquareLetterR, TbSquareLetterD, TbSquareLetterSFilled, TbSquareLetterEFilled, TbSquareLetterAFilled, TbSquareLetterRFilled, TbSquareLetterCFilled, 
 TbSquareLetterHFilled } from "react-icons/tb";
 import { GiMagnifyingGlass } from "react-icons/gi";
+import DictionaryCard from './components/dictionaryCard.jsx'
 
 import './App.css'
 
 function App() {
-  const [response, setResponse] = useState("")
+  const [response, setResponse] = useState([])
   const [word, setWord] = useState("")
 
 
@@ -60,8 +61,20 @@ function App() {
       <button className='rounded-tr-br outline-0 h-10 bg-zinc-700 text-xl border-l-4 border-amber-100 flex items-center justify-center'><span ><GiMagnifyingGlass />
         </span></button>      
     </form>
-    </>
-  )
-}
+    {
+      response.map((wordData, index) => {
+        return (
+          <DictionaryCard 
+            key={index} 
+            word={wordData.hwi.hw} 
+            functionalLabel={wordData.fl} 
+            shortdefs={wordData.shortdef} 
+            date={wordData.date}
+          />
+        )
+      })
+    }
+  </> 
+  )}
 
 export default App
