@@ -10,7 +10,7 @@ const DictionaryCard = ({ date, shortdefs, functionalLabel, word,  }) => {
         }
 
     return (
-        <div className=" flex-col bg-zinc-500 p-1 rounded-md shadow-md mt-3" onClick={() => setIsExpanded(!isExpanded)} >
+        <div className=" flex-col bg-zinc-500 p-1 rounded-md shadow-md mt-3 border-1 border-zinc-50" onClick={() => setIsExpanded(!isExpanded)} >
             <div className='flex justify-between mx-2'>
             <div className='text-2xl font-bold text-left capitalize'>{cleanWord(word)}</div>
             <div className='font-bold italic'>{functionalLabel}</div>
@@ -18,7 +18,7 @@ const DictionaryCard = ({ date, shortdefs, functionalLabel, word,  }) => {
             
             <div className='flex-col text-left'>{shortdefs.map((defintion, index) => {
                 return (
-                    <div className='mt-1 mx-3'>{index + 1}.) {defintion}</div>
+                    <div key={index} className='mt-1 mx-3'>{index + 1}.) {defintion}</div>
                 )
             })}</div>
             <div className='flex justify-center align-center items-center mx-3 mt-1'>
