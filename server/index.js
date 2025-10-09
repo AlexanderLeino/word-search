@@ -4,8 +4,6 @@ require("dotenv").config()
 const app = express()
 const port = 3000
 
-
-console.log(process.env.DICTIONARY_API_KEY)
 app.use(express.json())
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));

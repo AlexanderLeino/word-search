@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { TbSquareLetterWFilled } from "react-icons/tb";
 import { TbSquareLetterW, TbSquareLetterO, TbSquareLetterR, TbSquareLetterD, TbSquareLetterSFilled, TbSquareLetterEFilled, TbSquareLetterAFilled, TbSquareLetterRFilled, TbSquareLetterCFilled, 
 TbSquareLetterHFilled } from "react-icons/tb";
 import { GiMagnifyingGlass } from "react-icons/gi";
@@ -10,6 +9,26 @@ import './App.css'
 function App() {
   const [response, setResponse] = useState([])
   const [word, setWord] = useState("")
+  let backgroundIndex = 0
+  const staticBackgroundColors = ["bg-red-300", "bg-orange-300", "bg-amber-300", "bg-yellow-300", "bg-lime-300", "bg-green-300", "bg-emerald-300", "bg-teal-300", "bg-cyan-300", "bg-sky-300"]
+
+
+  const assignBackgroundColor = async (data, backgroundIndex) => {
+        
+    return data.map((wordAndDefinition) => {
+          if(backgroundIndex > 9) {
+            backgroundIndex = 0 
+            wordAndDefinition.backgroundColor = staticBackgroundColors[backgroundIndex]
+            backgroundIndex++
+          } else {
+            wordAndDefinition.backgroundColor = staticBackgroundColors[backgroundIndex]
+            backgroundIndex++
+          }
+        })
+
+       
+       
+  }
 
 
   const handleChange = async (e) => {
@@ -24,8 +43,10 @@ function App() {
       let response = await fetch(`http://localhost:3000/${word}`)
         
       const data = await response.json()
-      console.log(data)
+      
+      await assignBackgroundColor(data, backgroundIndex)
       setResponse(data)
+
     } catch (e) {
       console.log(e)
     }
@@ -69,6 +90,7 @@ function App() {
             functionalLabel={wordData.fl} 
             shortdefs={wordData.shortdef} 
             date={wordData.date}
+            backgroundColor = {wordData.backgroundColor}
           />
         )
       })
