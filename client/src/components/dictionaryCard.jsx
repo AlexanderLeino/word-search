@@ -9,7 +9,7 @@ const DictionaryCard = ({ date, shortdefs, functionalLabel, word, backgroundColo
     const cleanWord = (word) => {
         return word.replace(/:.*$/, "");
         }
-        console.log("BACKGROUND COLOR", backgroundColor)
+        
     return (
         <div className= {`flex-col ${backgroundColor} p-1 rounded-md shadow-md mt-3 border-1 text-black`} onClick={() => setIsExpanded(!isExpanded)} >
             <div className='flex justify-between mx-2'>

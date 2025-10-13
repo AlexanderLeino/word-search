@@ -43,7 +43,7 @@ function App() {
       let response = await fetch(`http://localhost:3000/${word}`)
         
       const data = await response.json()
-      
+      console.log("Found Data", data)
       await assignBackgroundColor(data, backgroundIndex)
       setResponse(data)
 
@@ -66,7 +66,7 @@ function App() {
       <h1 className='text-yellow-300 text-5xl'><TbSquareLetterD /></h1> 
     </div>
 
-    <div className='flex justify-items-start items-start justify-start flex-wrap '>
+    <div className='flex justify-center flex-wrap '>
       <h1 className='text-lime-300 text-5xl'> <TbSquareLetterSFilled /> </h1>
       <h1 className='text-green-300 text-5xl'> <TbSquareLetterEFilled /> </h1>
       <h1 className='text-emerald-300 text-5xl'> <TbSquareLetterAFilled /> </h1>
@@ -76,6 +76,9 @@ function App() {
 
 
     </div>
+
+    <a href='localhost:3000/auth'>HELLO CLICK ME~</a>
+    <a href="localhost:3000/sheet-data">Click me for sheet Data</a>
     <form className='flex items-center justify-center mt-5 ' onSubmit={fetchResponse}>
       <input value={word} onChange={handleChange} className='p-2 bg-zinc-700 h-10 rounded-tl-bl border-r-1 border-gray-500' placeholder='Enter Your Word Here'/>
       <button className='rounded-tr-br outline-0 h-10 bg-zinc-700 text-xl border-l-4 border-amber-100 flex items-center justify-center'><span ><GiMagnifyingGlass />

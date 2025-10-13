@@ -1,4 +1,5 @@
 const express = require('express')
+const { google } = require("googleapis")
 var cors = require('cors')
 require("dotenv").config()
 const app = express()
@@ -7,6 +8,55 @@ const port = 3000
 app.use(express.json())
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));
+
+
+const oauth2Client = new google.auth.OAuth2(
+  process.env.OAUTH_CLIENT_ID,
+  process.env.CLIENT_SECRET,
+  process.env.REDIRECT_URL // e.g. "http://localhost:3000/oauth2callback"
+);
+
+const scopes = ["https://www.googleapis.com/auth/spreadsheets"];
+
+// 1️⃣ Route to start the OAuth flow
+app.get("/auth", (req, res) => {
+  const url = oauth2Client.generateAuthUrl({
+    access_type: "offline", // get refresh_token
+    scope: scopes,
+  });
+  res.redirect(url);
+});
+
+// 2️⃣ Redirect URL (callback)
+app.get("/oauth2callback", async (req, res) => {
+  const code = req.query.code; // comes from Google after user grants access
+
+  try {
+    const { tokens } = await oauth2Client.getToken(code);
+    oauth2Client.setCredentials(tokens);
+
+    // save tokens for later use (e.g., in your DB or .env)
+    console.log("Tokens acquired:", tokens);
+
+    res.send("Authentication successful! You can now use the Sheets API.");
+  } catch (err) {
+    console.error("Error retrieving access token", err);
+    res.status(500).send("Authentication failed");
+  }
+});
+
+// 3️⃣ Example route that uses Sheets API
+app.get("/sheet-data", async (req, res) => {
+  const sheets = google.sheets({ version: "v4", auth: oauth2Client });
+
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId: process.env.GOOGLE_SPREADSHEET_ID,
+    range: "Sheet1!A1:D10",
+  });
+
+  res.json(response.data);
+});
+
 
 function getAudioUrl(audio) {
   const base = "https://media.merriam-webster.com/audio/prons/en/us/mp3";
