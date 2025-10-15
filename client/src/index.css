@@ -24,9 +24,9 @@ a:hover {
 }
 
 body {
-  margin: 0;
+ 
   display: flex;
-  place-items: center;
+ 
 }
 
 h1 {
@@ -35,7 +35,6 @@ h1 {
 
 input{
   text-decoration: none;
-  text-outline: none;
 }
 textarea:focus, input:focus{
     outline: none;

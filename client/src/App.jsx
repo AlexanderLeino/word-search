@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { TbSquareLetterW, TbSquareLetterO, TbSquareLetterR, TbSquareLetterD, TbSquareLetterSFilled, TbSquareLetterEFilled, TbSquareLetterAFilled, TbSquareLetterRFilled, TbSquareLetterCFilled, 
 TbSquareLetterHFilled } from "react-icons/tb";
 import { GiMagnifyingGlass } from "react-icons/gi";
+import clsx from "clsx"
 import DictionaryCard from './components/dictionaryCard.jsx'
 
 import './App.css'
@@ -9,11 +10,12 @@ import './App.css'
 function App() {
   const [response, setResponse] = useState([])
   const [word, setWord] = useState("")
+  const [selectedWords, setSelectedWords] = []
   let backgroundIndex = 0
   const staticBackgroundColors = ["bg-red-300", "bg-orange-300", "bg-amber-300", "bg-yellow-300", "bg-lime-300", "bg-green-300", "bg-emerald-300", "bg-teal-300", "bg-cyan-300", "bg-sky-300"]
 
 
-  const assignBackgroundColor = async (data, backgroundIndex) => {
+const assignBackgroundColor = async (data, backgroundIndex) => {
   
   if(data) {
      return data.map((wordAndDefinition) => {
@@ -29,11 +31,13 @@ function App() {
 
   } else {
     console.log("We didnt find any data")
-  }
-   
-       
-       
-  }
+  }   
+}
+
+const addToWordList = (word) => {
+  console.log("WORD", word)
+  
+}
 
 
   const handleChange = async (e) => {
@@ -70,7 +74,8 @@ function App() {
 
   return (
     <>
-  
+ 
+        
     <div className='flex justify-items-center items-center justify-center flex-wrap'>
       <h1 className='text-red-300 text-5xl'><TbSquareLetterW /></h1>
       <h1 className='text-orange-300 text-5xl'><TbSquareLetterO /></h1>
@@ -88,12 +93,7 @@ function App() {
 
 
     </div>
-  <div className='flex flex-col'>
-    <a href='http://localhost:3000/auth'>HELLO CLICK ME~</a>
-    <a href="http://localhost:3000/sheet-data">Click me for sheet Data</a>
-    <button onClick={addWord}>CLICK ME OT ADD WORD</button>
-  </div>
-    
+
     <form className='flex items-center justify-center mt-5 ' onSubmit={fetchResponse}>
       <input value={word} onChange={handleChange} className='p-2 bg-zinc-700 h-10 rounded-tl-bl border-r-1 border-gray-500' placeholder='Enter Your Word Here'/>
       <button className='rounded-tr-br outline-0 h-10 bg-zinc-700 text-xl border-l-4 border-amber-100 flex items-center justify-center'><span ><GiMagnifyingGlass />
@@ -109,10 +109,17 @@ function App() {
             shortdefs={wordData.shortdef} 
             date={wordData.date}
             backgroundColor = {wordData.backgroundColor}
+            addToWordList = {addToWordList}
           />
         )
       })
     }
+       <div className='flex justify-between wrap items-center mt-5 x-3'>
+      
+      <a href='http://localhost:3000/sheet-data'><button className='bg-red-200 rounded font-bold text-black text-lg '>Get Sheet Data</button></a>
+      <button className='bg-green-200 rounded font-bold text-black text-lg '>Add Words</button>
+      <a href='http://localhost:3000/auth'><button className='bg-cyan-200 rounded font-bold text-black text-lg pl-4'>Login</button></a>
+    </div>
   </> 
   )}
 

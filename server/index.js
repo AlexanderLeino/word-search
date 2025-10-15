@@ -9,7 +9,6 @@ app.use(express.json())
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 
-
 const oauth2Client = new google.auth.OAuth2(
   process.env.OAUTH_CLIENT_ID,
   process.env.CLIENT_SECRET,
@@ -19,6 +18,10 @@ const oauth2Client = new google.auth.OAuth2(
 const scopes = ["https://www.googleapis.com/auth/spreadsheets"];
 
 // 1️⃣ Route to start the OAuth flow
+
+
+
+
 app.get("/auth", (req, res) => {
 
   console.log("AUTH")
@@ -38,12 +41,14 @@ app.get("/oauth2callback", async (req, res) => {
     oauth2Client.setCredentials(tokens);
 
     // save tokens for later use (e.g., in your DB or .env)
-    console.log("Tokens acquired:", tokens);
-
     res.send("Authentication successful! You can now use the Sheets API.");
   } catch (err) {
-    console.error("Error retrieving access token", err);
-    res.status(500).send("Authentication failed");
+    // if error occurs just simply getting a new token generated. 
+    const url = oauth2Client.generateAuthUrl({
+    access_type: "offline", // get refresh_token
+    scope: scopes,
+  });
+  res.redirect(url);
   }
 });
 
@@ -51,7 +56,7 @@ app.get("/oauth2callback", async (req, res) => {
 app.get("/sheet-data", async (req, res) => {
 
   const sheets = google.sheets({ version: "v4", auth: oauth2Client });
-
+  console.log(oauth2Client)
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.GOOGLE_SPREADSHEET_ID,
     range: "Sheet1",
@@ -71,7 +76,7 @@ app.put("/add-word-definition", async (req, res) => {
 
     const values = [
       ["Values", "Alex", "BILLY GOAT"], 
-      ["Nascar", "Very Cool Racing"]
+      ["Nascar", "Hawii"]
     ]
 
     const resource = {
@@ -94,6 +99,11 @@ app.put("/add-word-definition", async (req, res) => {
  
 
 })
+
+
+
+
+
 
 
 function getAudioUrl(audio) {
