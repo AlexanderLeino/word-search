@@ -14,8 +14,9 @@ function App() {
 
 
   const assignBackgroundColor = async (data, backgroundIndex) => {
-        
-    return data.map((wordAndDefinition) => {
+  
+  if(data) {
+     return data.map((wordAndDefinition) => {
           if(backgroundIndex > 9) {
             backgroundIndex = 0 
             wordAndDefinition.backgroundColor = staticBackgroundColors[backgroundIndex]
@@ -26,6 +27,10 @@ function App() {
           }
         })
 
+  } else {
+    console.log("We didnt find any data")
+  }
+   
        
        
   }
@@ -56,6 +61,13 @@ function App() {
 
   
 
+
+  const addWord = async (e) => {
+    await fetch("http://localhost:3000/add-word-definition", {
+      method: "PUT"
+    })
+  }
+
   return (
     <>
   
@@ -76,9 +88,12 @@ function App() {
 
 
     </div>
-
-    <a href='localhost:3000/auth'>HELLO CLICK ME~</a>
-    <a href="localhost:3000/sheet-data">Click me for sheet Data</a>
+  <div className='flex flex-col'>
+    <a href='http://localhost:3000/auth'>HELLO CLICK ME~</a>
+    <a href="http://localhost:3000/sheet-data">Click me for sheet Data</a>
+    <button onClick={addWord}>CLICK ME OT ADD WORD</button>
+  </div>
+    
     <form className='flex items-center justify-center mt-5 ' onSubmit={fetchResponse}>
       <input value={word} onChange={handleChange} className='p-2 bg-zinc-700 h-10 rounded-tl-bl border-r-1 border-gray-500' placeholder='Enter Your Word Here'/>
       <button className='rounded-tr-br outline-0 h-10 bg-zinc-700 text-xl border-l-4 border-amber-100 flex items-center justify-center'><span ><GiMagnifyingGlass />

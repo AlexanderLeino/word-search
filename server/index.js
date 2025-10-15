@@ -20,6 +20,8 @@ const scopes = ["https://www.googleapis.com/auth/spreadsheets"];
 
 // 1️⃣ Route to start the OAuth flow
 app.get("/auth", (req, res) => {
+
+  console.log("AUTH")
   const url = oauth2Client.generateAuthUrl({
     access_type: "offline", // get refresh_token
     scope: scopes,
@@ -47,15 +49,51 @@ app.get("/oauth2callback", async (req, res) => {
 
 // 3️⃣ Example route that uses Sheets API
 app.get("/sheet-data", async (req, res) => {
+
   const sheets = google.sheets({ version: "v4", auth: oauth2Client });
 
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.GOOGLE_SPREADSHEET_ID,
-    range: "Sheet1!A1:D10",
+    range: "Sheet1",
   });
 
   res.json(response.data);
 });
+
+
+app.put("/add-word-definition", async (req, res) => {
+  
+  try {
+
+    
+    const sheets = google.sheets({version: "v4", auth: oauth2Client})
+
+
+    const values = [
+      ["Values", "Alex", "BILLY GOAT"], 
+      ["Nascar", "Very Cool Racing"]
+    ]
+
+    const resource = {
+      values
+    }
+        
+    
+
+    const response = await sheets.spreadsheets.values.update({
+      spreadsheetId: process.env.GOOGLE_SPREADSHEET_ID,
+      range: "Sheet1!A10:C6",
+      valueInputOption: "RAW",
+      resource  
+  })
+  
+   res.json(response)
+  } catch (e) {
+    console.log(e)
+  }
+ 
+
+})
 
 
 function getAudioUrl(audio) {
